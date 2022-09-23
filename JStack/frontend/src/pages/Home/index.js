@@ -1,18 +1,37 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { Link } from 'react-router-dom';
-import * as S from './styles';
+import { Link } from "react-router-dom";
+import * as S from "./styles";
 
 // import Modal from '../../components/Modal';
 
-import arrow from '../../assets/images/icons/arrow.svg';
-import edit from '../../assets/images/icons/edit.svg';
-import trash from '../../assets/images/icons/trash.svg';
+import arrow from "../../assets/images/icons/arrow.svg";
+import edit from "../../assets/images/icons/edit.svg";
+import trash from "../../assets/images/icons/trash.svg";
+import { useEffect } from "react";
+import { useState } from "react";
 // import Loader from '../../components/Loader';
 
 export default function Home() {
+  const [contacts, setContacts] = useState([]);
+
+  function getContacts() {
+    fetch("http://localhost:3001/contacts")
+      .then(async (response) => {
+        const data = await response.json();
+        setContacts(data);
+        console.log(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  useEffect(() => {
+    getContacts();
+  }, []);
+
   return (
     <S.Container>
-
       {/* <Loader /> */}
 
       {/* <Modal danger /> */}
@@ -22,7 +41,10 @@ export default function Home() {
       </S.InputSearchContainer>
 
       <S.Header>
-        <strong>3 contatos</strong>
+        <strong>
+          {contacts.length}
+          {contacts.length === 1 ? " contato" : " contatos"}
+        </strong>
         <Link to="/new">Novo contato</Link>
       </S.Header>
 
@@ -34,30 +56,29 @@ export default function Home() {
           </button>
         </header>
 
-        <S.Card>
-          <div className="info">
-            <div className="contact-name">
-              <strong>Victor Jordan</strong>
-              <small>instagram</small>
+        {contacts.map((contact) => (
+          <S.Card key={contact.id}>
+            <div className="info">
+              <div className="contact-name">
+                <strong>{contact?.name}</strong>
+                {contact?.category_name && <small>{contact?.category_name}</small>}
+              </div>
+
+              <span>{contact?.email}</span>
+              <span>{contact?.phone}</span>
             </div>
 
-            <span>victor@teste.com</span>
-            <span>(14) 99999-9999</span>
-          </div>
+            <div className="actions">
+              <Link to={`/edit/${contact?.id}`}>
+                <img src={edit} alt="" />
+              </Link>
 
-          <div className="actions">
-            <Link to="/edit/123">
-              <img src={edit} alt="" />
-            </Link>
-
-            <button type="button">
-              <img src={trash} alt="Arrow" />
-            </button>
-
-          </div>
-
-        </S.Card>
-
+              <button type="button">
+                <img src={trash} alt="Arrow" />
+              </button>
+            </div>
+          </S.Card>
+        ))}
       </S.ListContainer>
     </S.Container>
   );

@@ -7,12 +7,18 @@
     "test": "test"
   },
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha --timeout=30000 ./tests"
+    "test": "./node_modules/mocha/bin/mocha --timeout=30000 ./tests/example.test.js",
+    "test:device": "./node_modules/mocha/bin/mocha --timeout=30000 ./tests/device.test.js",
+    "test:e2e": "./node_modules/mocha/bin/mocha --timeout=30000 ./tests/e2e/*.test.js",
+    "test-snapshots": "jest --config=jest.config.js --detectOpenHandles --forceExit",
+    "test-snapshots-update": "jest --config=jest.config.js --detectOpenHandles --forceExit --updateSnapshot"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "chai": "^4.3.6",
+    "jest": "^28.1.0",
+    "jest-image-snapshot": "^4.5.1",
     "mocha": "^9.2.2",
     "puppeteer": "^13.6.0"
   }
