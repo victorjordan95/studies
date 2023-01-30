@@ -18,6 +18,8 @@ export default function Home() {
   const [orderBy, setOrderBy] = useState("asc");
   const [searchTerm, setSearchTerm] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
+  
   
 
   const filteredContacts = useMemo(() => {
@@ -33,8 +35,8 @@ export default function Home() {
       const contactsList = await ContactsService.listContacts(orderBy);
       setContacts(contactsList);
   
-    } catch (error) {
-      console.log(error);
+    } catch {
+      setHasError(true);
     } finally {
       setIsLoading(false);
     }
@@ -77,6 +79,14 @@ export default function Home() {
           <Link to="/new">Novo contato</Link>
         </S.Header>
       )}
+
+      {hasError && (
+          <>
+          <p>Erro ao carregar os contatos</p>
+          <button onClick={getContacts}>Tentar novamente</button>
+          </>
+        )
+      }
 
       <S.ListHeader orderBy={orderBy}>
         <button

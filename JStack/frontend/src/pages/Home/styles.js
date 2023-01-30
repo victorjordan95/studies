@@ -29,7 +29,7 @@ export const Header = styled.header`
   align-items: center;
   display: flex;
   flex-flow: row wrap;
-  justify-content: space-between;
+  justify-content: ${({ hasError }) => (hasError ? "flex-end" : "space-between")};
   margin-top: 32px;
 
   strong {

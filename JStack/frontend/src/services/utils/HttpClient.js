@@ -1,3 +1,5 @@
+import APIError from "../../errors/APIError";
+
 class HttpClient {
   constructor(baseURL) {
     this.baseURL = 'http://localhost:3000';
@@ -5,10 +7,21 @@ class HttpClient {
 
   async get(url) {
     const response = await fetch(`${this.baseURL}${url}`);
-    const data = await response.json();
+
+    let body = null;
+    const contentType = response.headers.get('content-type');
+    if(contentType.includes('application/json')) {
+      body = await response.json();
+    }
+
+    if (response.ok) {
+      return body;
+    }
     
-    return data;
+    // return Promise.reject(response);
+    // throw new Error(body?.error || `${response.status} - ${response.statusText}`);
+    throw new APIError(response, body);
   }
 }
 
-export default HttpClient();
+export default HttpClient;
