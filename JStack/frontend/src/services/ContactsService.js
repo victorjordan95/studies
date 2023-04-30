@@ -1,13 +1,22 @@
-import HttpClient from "./utils/HttpClient";
+import HttpClient from './utils/HttpClient';
 
-class ContactsService{
-  constructor(){
+class ContactsService {
+  constructor() {
     this.httpClient = new HttpClient('http://localhost:3001');
   }
 
-  async listContacts(orderBy = 'asc'){
-    return this.httpClient.get(`/contacts?orderBy=${orderBy}`);
+  async listContacts(orderBy = 'asc') {
+    return this.httpClient.get(`/contacts?orderBy=${orderBy}`, {
+      headers: {
+        Authorization: 'Bearer token',
+      },
+    });
+  }
 
+  async createContact(contact) {
+    return this.httpClient.post('/contacts', {
+      body: contact,
+    });
   }
 }
 

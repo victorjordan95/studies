@@ -4,6 +4,16 @@ export const Container = styled.div`
   & + & {
     margin-top: 16px;
   }
+
+  .form-item {
+    position: relative;
+  }
+
+  .loader {
+    position: absolute;
+    top: 18px;
+    right: 16px;
+  }
 `;
 
 export const Error = styled.small`

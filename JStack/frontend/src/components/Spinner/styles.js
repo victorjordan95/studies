@@ -32,14 +32,14 @@ const round = keyframes`
   }
 `;
 
-export const Overlay = styled.div`
-  align-items: center;
-  background: rgba(246, 245, 252, 0.7);
-  display: flex;
-  height: 100%;
-  justify-content: center;
-  left: 0;
-  position: fixed;
-  top: 0;
-  width: 100%;
+export const StyledSpinner = styled.div`
+  animation: ${load} 1.7s infinite ease, ${round} 1.7s infinite ease;
+  border-radius: 50%;
+  color: ${({ theme }) => theme.colors.primary.main};
+  font-size: ${({ size }) => size}px;
+  height: 1em;
+  overflow: hidden;
+  position: relative;
+  transform: translateZ(0);
+  width: 1em;
 `;
